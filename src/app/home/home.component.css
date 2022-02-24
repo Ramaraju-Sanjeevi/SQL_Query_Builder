@@ -1,0 +1,27 @@
+/* .query_main{
+    margin: 5%;
+} */
+
+.card_section{
+    margin: 1% 0 1% 0;
+}
+
+.query_Container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    flex: auto;
+}
+
+.query_Item{
+    margin: 0 2% 0 2%;
+}
+
+.btn_class{
+    padding: 24% 0 0 0 ;
+}
+
+.action_btn{
+    margin: 0 5px 0 5px;
+}

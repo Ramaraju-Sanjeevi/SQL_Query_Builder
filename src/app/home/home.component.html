@@ -1,0 +1,61 @@
+<p-card #pCard header="Query Builder" subheader="Query Your Data" class="card_section" >
+    <!-- Query Section -->
+    <div class="query_main" style="display: flex;">
+        <!-- table dropdown -->
+        <div>
+            <h3>Data Source</h3>
+            <p-dropdown [options]="availabletables" [(ngModel)]="selectedTable" (onChange) = 'tableChange($event)'
+            placeholder="Select a Table" optionLabel="tableName" [showClear]="true" ></p-dropdown>
+        </div>
+        <div class="query_Container" *ngIf="showqueryData" >
+            <div class="query_Item">
+                <h3>Field/ Column</h3>
+                <p-dropdown [options]="cols" [(ngModel)]="selectedKey" (onChange) = 'keyChange($event)'
+                placeholder="Select a Field" optionLabel="header" [showClear]="true" ></p-dropdown>
+            </div>
+            <div class="query_Item" *ngIf="showConditionInput">
+                <h3>Condition</h3>
+                <p-dropdown  [options]="availableOperations" [(ngModel)]="selectedCondition" (onChange) ='conditionChange($event)'
+                placeholder="Select a Condition" optionLabel="opName" [showClear]="true"></p-dropdown>
+            </div>
+            <div class="query_Item" *ngIf="showQueryInput" >
+                <h3>Value</h3>
+                <input (ngModelChange)="queryValueChange($event)" [(ngModel)]="selectedValue" type="{{selectedKey.type}}" pInputText  placeholder="Query Value" class="float-input" > 
+            </div>
+            <!-- CTA buttons -->
+            <div class="query_Item" *ngIf="showActionButtons">
+                <div class="btn_class">
+                    <p-button label="Search" class="action_btn" styleClass="p-button-primary" (onClick)="fetchQueryData()" icon="pi pi-search" [loading]="isLoading"></p-button>
+                <p-button label="Clear" class="action_btn" styleClass="p-button-warning p-button-outlined"  (onClick)="ClearQuery()" icon="pi pi-times"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-card>
+
+<!-- table Section -->
+<p-table [columns]="cols" [value]="querySelectedValue" [paginator]=true dataKey="id"
+[rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll" sortMode="single"
+currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+[resizableColumns]="true" styleClass="p-datatable-gridlines" *ngIf="showqueryData">
+    <ng-template pTemplate="caption">
+        <div>
+            {{ captioName }}
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                {{col.header}}
+                <p-sortIcon [field]="col.field" aria-label="Activate to sort"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                {{rowData[col.field]}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
